@@ -1,0 +1,35 @@
+{
+  "name": "kiosk-management-system",
+  "version": "1.0.0",
+  "description": "Offline-first bilingual Kiosk Management System desktop application.",
+  "main": "electron/main.cjs",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "tsc && vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "electron": "electron .",
+    "test": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@vitejs/plugin-react": "latest",
+    "vite": "latest",
+    "typescript": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "bootstrap": "latest",
+    "chart.js": "latest",
+    "react-chartjs-2": "latest",
+    "i18next": "latest",
+    "react-i18next": "latest",
+    "express": "latest",
+    "@prisma/client": "latest",
+    "bcryptjs": "latest",
+    "electron": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "prisma": "latest"
+  }
+}
