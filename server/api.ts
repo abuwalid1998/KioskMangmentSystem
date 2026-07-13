@@ -47,8 +47,4 @@ app.get('/dashboard', async (_req, res) => {
   const [products, suppliers, expenses] = await Promise.all([prisma.product.findMany(), prisma.supplier.count(), prisma.expense.findMany()]);
   res.json({ inventoryValue: products.reduce((s, p) => s + Number(p.purchasePrice) * p.quantity, 0), productCount: products.length, supplierCount: suppliers, expenses: expenses.reduce((s, e) => s + Number(e.amount), 0), lowInventoryCount: products.filter(p => p.quantity <= p.minimumQuantity).length });
 });
-app.post('/admin/users', async (req, res) => {
-  requireAdmin(req.body.actorRole);
-  const { password, ...user } = req.body.user;
-  res.status(201).json(await prisma.user.create({ data: { ...user, passwordHash: bcrypt.hashSync(password, 12) } }));
-});
+app.post('/admin/users', async (req, res) => { requireAdmin(req.body.actorRole); res.status(201).json(await prisma.user.create({ data: { ...req.body.user, passwordHash: bcrypt.hashSync(req.body.user.password, 12), password: undefined } })); });
