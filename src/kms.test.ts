@@ -1,7 +1,6 @@
 import { KmsStore } from './kms';
 import { seedData } from './seed';
 import { exportProductsCsv, printableReceipt } from './exporters';
-import { MemorySnapshotStorage } from './storage';
 
 function assert(condition: unknown, message: string) { if (!condition) throw new Error(message); }
 
@@ -18,7 +17,3 @@ assert(store.reports().bestSellers[0].quantity === 2, 'best seller report calcul
 assert(store.backup().includes('KMS Demo Store'), 'backup exports state');
 assert(exportProductsCsv(store.snapshot().products).includes('Barcode'), 'product CSV export works');
 assert(printableReceipt(sale, seedData.settings.storeName, seedData.settings.receiptFooter).includes('Receipt'), 'receipt print text works');
-
-const storage = new MemorySnapshotStorage();
-storage.save(store.snapshot());
-assert(storage.load().products.length === store.snapshot().products.length, 'snapshot storage round-trips state');

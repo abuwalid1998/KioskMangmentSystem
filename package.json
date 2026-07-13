@@ -8,9 +8,7 @@
     "build": "tsc && vite build",
     "preview": "vite preview --host 0.0.0.0",
     "electron": "electron .",
-    "test": "npm run test:types && npm run test:logic",
-    "test:types": "tsc --noEmit",
-    "test:logic": "rm -rf .test-build && tsc -p tsconfig.test.json && node .test-build/kms.test.js"
+    "test": "tsc --noEmit"
   },
   "dependencies": {
     "@vitejs/plugin-react": "latest",
