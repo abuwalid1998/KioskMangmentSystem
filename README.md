@@ -16,12 +16,6 @@ Offline-first desktop kiosk management application for POS, inventory, suppliers
 - **Backup/restore:** JSON state export/import for offline database snapshots.
 - **Exports/printing:** CSV exports and printable receipt text.
 
-## API coverage
-
-The Express API now includes endpoints for authentication, categories, suppliers, products, inventory movements/adjustments, purchases, sales history, expenses, dashboard metrics, financial/inventory/product reports, settings, user activation, backup creation, and restore validation.
-
-See `ACCEPTANCE.md` for BRD acceptance coverage and remaining production hardening items.
-
 ## Commands
 
 ```bash
