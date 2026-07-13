@@ -1,0 +1,19 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "sqlite" url = env("DATABASE_URL") }
+
+enum Role { ADMIN STAFF }
+enum Status { ACTIVE INACTIVE }
+enum MovementType { PURCHASE SALE ADJUSTMENT DAMAGED EXPIRED RETURNED }
+enum PaymentMethod { CASH CARD MIXED }
+
+model User { id Int @id @default(autoincrement()) fullName String username String @unique passwordHash String role Role preferredLanguage String @default("en") status Status @default(ACTIVE) sales Sale[] createdAt DateTime @default(now()) }
+model Category { id Int @id @default(autoincrement()) nameEn String nameAr String products Product[] }
+model Supplier { id Int @id @default(autoincrement()) name String contactPerson String? phone String? email String? address String? notes String? products Product[] purchases Purchase[] }
+model Product { id Int @id @default(autoincrement()) barcode String @unique nameAr String nameEn String categoryId Int? supplierId Int? purchasePrice Decimal sellingPrice Decimal quantity Int @default(0) minimumQuantity Int @default(0) unit String @default("pcs") imageUrl String? status Status @default(ACTIVE) category Category? @relation(fields:[categoryId], references:[id]) supplier Supplier? @relation(fields:[supplierId], references:[id]) saleItems SaleItem[] purchaseItems PurchaseItem[] movements InventoryMovement[] createdAt DateTime @default(now()) updatedAt DateTime @updatedAt }
+model InventoryMovement { id Int @id @default(autoincrement()) productId Int type MovementType quantity Int beforeQty Int afterQty Int reference String? notes String? product Product @relation(fields:[productId], references:[id]) createdAt DateTime @default(now()) }
+model Purchase { id Int @id @default(autoincrement()) supplierId Int invoiceNumber String @unique date DateTime @default(now()) total Decimal supplier Supplier @relation(fields:[supplierId], references:[id]) items PurchaseItem[] }
+model PurchaseItem { id Int @id @default(autoincrement()) purchaseId Int productId Int quantity Int purchasePrice Decimal total Decimal purchase Purchase @relation(fields:[purchaseId], references:[id]) product Product @relation(fields:[productId], references:[id]) }
+model Sale { id Int @id @default(autoincrement()) receiptNumber String @unique cashierId Int? date DateTime @default(now()) subtotal Decimal discount Decimal @default(0) total Decimal costOfGoods Decimal paymentMethod PaymentMethod cashier User? @relation(fields:[cashierId], references:[id]) items SaleItem[] }
+model SaleItem { id Int @id @default(autoincrement()) saleId Int productId Int quantity Int unitPrice Decimal purchasePrice Decimal total Decimal sale Sale @relation(fields:[saleId], references:[id]) product Product @relation(fields:[productId], references:[id]) }
+model Expense { id Int @id @default(autoincrement()) category String amount Decimal note String? date DateTime @default(now()) }
+model Setting { key String @id value String }
